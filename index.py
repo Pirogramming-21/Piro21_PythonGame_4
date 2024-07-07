@@ -96,8 +96,8 @@ def main():
     # player들의 이름과 현재까지 마신 잔 수가 들어있는 dictionary
     current_drinks = {player: 0 for player in invited_players}
 
-    # 다음 게임 플레이어의 이름과 current_drinks를 담고있는 list
-    result = [user_name, current_drinks]
+    # 다음 게임 플레이어의 이름 (초기 player: 사용자)
+    target_name = user_name
     
     while True:
         # 음주 상태 확인 및 출력
@@ -107,21 +107,21 @@ def main():
             break
    
         # 게임 선택
-        game_choice = print_game_list(result[0], user_name)
+        game_choice = print_game_list(target_name, user_name)
       
         # 게임 실행
         if game_choice == '1':
-            result = lock_game(invited_players, fatal_limits, current_drinks, result[0])
+            target_name = lock_game(invited_players, target_name)
         elif game_choice == '2':
-            result = abc_game(invited_players, current_drinks, fatal_limits, result[0])
+            target_name = abc_game(invited_players, target_name)
         elif game_choice == '3':
-            result = abc_game(invited_players, current_drinks, fatal_limits, result[0])
+            target_name = abc_game(invited_players, target_name)
         elif game_choice == '4':
-            result = abc_game(invited_players, current_drinks, fatal_limits, result[0])
+            target_name = abc_game(invited_players, target_name)
         elif game_choice == '5':
-            result = abc_game(invited_players, current_drinks, fatal_limits, result[0])
+            target_name = abc_game(invited_players, target_name)
         elif game_choice == '6':
-            result = abc_game(invited_players, current_drinks, fatal_limits, result[0])
+            target_name = abc_game(invited_players, target_name)
             break
         else:
             print("올바른 선택이 아닙니다. 다시 선택하세요.")
