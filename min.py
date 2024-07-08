@@ -138,9 +138,11 @@ def subway_game(user, players, starter):
             elif station not in subway_lines[line_number]:
                 print(f"이 역은 {line_number}호선에 없습니다!!!")
                 game_over = True
+                
             else:
                 print("정답입니다!")
                 used_stations.add(station)
+                current_player = (current_player + 1) % len(players)
             
         else: # invited_player일 때
             station = invited_players_turn(line_number, used_stations)
@@ -161,7 +163,6 @@ def subway_game(user, players, starter):
             else:
                 print("정답입니다!")
                 used_stations.add(station)
-
-        current_player = (current_player + 1) % len(players)
+                current_player = (current_player + 1) % len(players)
 
     return players[current_player]
