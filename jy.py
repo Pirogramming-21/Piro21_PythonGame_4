@@ -16,6 +16,7 @@ def explanation():
    print("1. 1부터 15까지 이진법으로 나타낸다! (1 => 0001, 15 => 1111)")
    print("2. 0에서는 '-'를 입력하고 1에서는 '딸기'를 한 줄로 입력한다!")
    print("** 각 입력 사이에는 공백 필수!! **")
+   print("** 7초 안에 입력은 필수!! **")
    print("3. 15까지 가면 역순으로 내려온다!")
    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
    
@@ -67,7 +68,9 @@ def bin_strawberry_game(invited_players, starter):
 
       # 만약 현재 player가 사용자라면
       if invited_players[-1] == invited_players[current_player]:
-         answer = input(f"{invited_players[current_player]}: ").split()
+         start_time = time.time()
+         answer = input(f"{invited_players[current_player]}(7초 안에 입력해주세요): ").split()
+         end_time = time.time()
       # 만약 현재 player가 사용자가 아니라면
       # (current_num) ~ (current_num+1) 중 숫자 하나를 무작위로 선택
       else:
@@ -79,6 +82,10 @@ def bin_strawberry_game(invited_players, starter):
       
       # player가 말해야하는 정답을 담은 list
       bin_straw_ans = to_bin_strawberry(current_num)
+
+      if end_time - start_time > 7:
+         print("시간은 생명!! 생명!! 생명~ 생명~ 생명~")
+         wrong_flag = 1
 
       for i in range(4):
          # 정답을 틀리게 말했다면 while문 탈출
