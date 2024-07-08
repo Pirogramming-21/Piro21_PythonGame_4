@@ -1,8 +1,8 @@
 import random
-<<<<<<< HEAD
-from min.py import subway_game
-=======
->>>>>>> origin/develop
+from hee import lock_game
+from abc_woo import abc_game
+from sudoku import sudoku_game
+from jy import bin_strawberry_game
 
 # 플레이어 초대 함수
 def invite_players(max_players=4):
@@ -20,18 +20,6 @@ def invite_players(max_players=4):
 
 # 음주 상태 출력 및 확인 함수
 def drinking_status(invited_players, fatal_limits, current_drinks):
-<<<<<<< HEAD
-   # 치사량에 도달한 player의 이름을 담는 리스트
-   died_player_list = []
-   print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-   for player in invited_players:
-      remaining = fatal_limits[player] - current_drinks[player]
-      print(f"{player}는(은) 지금까지 {current_drinks[player]}잔! 치사량까지 {remaining}잔")
-      if remaining == 0:
-         died_player_list.append(player)
-   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-   return died_player_list
-=======
     # 치사량에 도달한 player의 이름을 담는 리스트
     died_player_list = []
     print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -42,20 +30,15 @@ def drinking_status(invited_players, fatal_limits, current_drinks):
             died_player_list.append(player)
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     return died_player_list
->>>>>>> origin/develop
 
 # 게임 리스트 출력 및 선택 함수
 def print_game_list(starter, user_name):
     print("~~~~~~~~~~~~~~~~ 오늘의 Alcohol GAME 🍺 ~~~~~~~~~~~~~~~~")
     print("               🍺 1. 자물쇠 비밀번호를 맞춰라~")
-    print("               🍺 2. ABC 게임")
-<<<<<<< HEAD
-    print("               🍺 3. 지하철 게임")
-=======
-    print("               🍺 3. 369 게임")
->>>>>>> origin/develop
+    print("               🍺 2. 나랑 ABC하러 갈래~~~~~?")
+    print("               🍺 3. 이진 딸기 게임")
     print("               🍺 4. 두부 게임")
-    print("               🍺 5. 초성 게임")
+    print("               🍺 5. 🍺 WELCOME TO SUDOKU WORLD! 🍺")
     print("               🍺 6. 게임 종료")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
@@ -99,6 +82,11 @@ def limit_set(user_name):
     print(f"{user_name}님, 당신의 치사량은 {fatal_limit}잔 입니다.")
     return fatal_limit
 
+# 타겟 플레이어의 current_drinks 조절 함수
+def adjust_drinks(target_name, current_drinks):
+    current_drinks[target_name] += 1
+    print(f"🍺누가 술을 마셔 {target_name}이(가) 술을 마셔🍺 원~~~샷!!!")
+
 # 메인 함수
 def main():
     user_name = input("당신의 이름을 입력하세요: ")
@@ -117,13 +105,8 @@ def main():
     # player들의 이름과 현재까지 마신 잔 수가 들어있는 dictionary
     current_drinks = {player: 0 for player in invited_players}
 
-<<<<<<< HEAD
-    # 다음 게임 플레이어의 이름과 current_drinks를 담고있는 list
-    result = [user_name, current_drinks]
-=======
     # 다음 게임 플레이어의 이름 (초기 player: 사용자)
     target_name = user_name
->>>>>>> origin/develop
     
     while True:
         # 음주 상태 확인 및 출력
@@ -133,54 +116,43 @@ def main():
             break
    
         # 게임 선택
-<<<<<<< HEAD
-        game_choice = print_game_list(result[0], user_name)
-      
-        # 게임 실행
-        if game_choice == '1':
-            result = lock_game(invited_players, fatal_limits, current_drinks, result[0])
-        elif game_choice == '2':
-            result = abc_game(invited_players, current_drinks, fatal_limits, result[0])
-        elif game_choice == '3':
-            result = subway_game(invited_players, current_drinks, fatal_limits, result[0])
-        elif game_choice == '4':
-            print("두부 게임은 아직 구현되지 않았습니다.")
-        elif game_choice == '5':
-            print("초성 게임은 아직 구현되지 않았습니다.")
-        elif game_choice == '6':
-            print(f"{result[0]}이(가) 게임 종료를 선택했습니다.")
-=======
         game_choice = print_game_list(target_name, user_name)
       
         # 게임 실행
         if game_choice == '1':
             target_name = lock_game(invited_players, target_name)
+            fatal_limits[target_name] += 1
         elif game_choice == '2':
-            target_name = abc_game(invited_players, target_name)
+            current_player, target_name, turn_count = abc_game(invited_players, target_name)
+            if target_name:
+                if target_name == 'all':
+                    for player in invited_players:
+                        adjust_drinks(player, current_drinks)
+                else:
+                    adjust_drinks(target_name, current_drinks)
+            target_name = invited_players[current_player]
         elif game_choice == '3':
-            target_name = abc_game(invited_players, target_name)
+            target_name = bin_strawberry_game(invited_players, target_name)
+            adjust_drinks(target_name, current_drinks)
         elif game_choice == '4':
-            target_name = abc_game(invited_players, target_name)
+            print("두부 게임은 아직 구현되지 않았습니다.")
         elif game_choice == '5':
-            target_name = abc_game(invited_players, target_name)
+            target_name, current_drinks = sudoku_game(current_drinks, invited_players, user_name)
+            adjust_drinks(target_name, current_drinks)
         elif game_choice == '6':
-            target_name = abc_game(invited_players, target_name)
->>>>>>> origin/develop
+            print(f"{target_name}이(가) 게임 종료를 선택했습니다.")
             break
         else:
             print("올바른 선택이 아닙니다. 다시 선택하세요.")
    
     # 게임 오버 창 띄우기
     if len(died_player_list) == 0:
-        return
+        print("게임 오버")
+        return 0
     else:
         # 치사량에 도달한 player들 출력
         for player in died_player_list:
             print(f"{player}이(가) 전사했습니다... 꿈나라에서는 편히 쉬시길..zzzz")
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     main()
-=======
-    main()
->>>>>>> origin/develop
