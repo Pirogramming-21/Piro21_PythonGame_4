@@ -9,6 +9,7 @@
 3. 15까지 가면 역순으로 내려옴
 """
 import random
+import time
 
 def explanation():
    print("~~~~~~~~~~~~~ 🍓 이진 딸기 게임 룰 🍓 ~~~~~~~~~~~~~")
@@ -36,68 +37,76 @@ def to_bin_strawberry(current_num):
 
 def bin_strawberry_game(invited_players, starter):
    print("❗️0에서는 '-'를 입력해주세요❗️")
-   ex = input("게임 설명을 보기 원하시나요? (y/n): ")
+   ex = input("게임 설명을 원하시면 'y'를 눌러주세요!(원하시지 않으면 아무키나 눌러주세요!): ")
 
    if ex == 'y':
       explanation()
-   else:
-      # 인트로
-      print("~~~~~~~~~~~~~ 🍓 게임 START!! 🍓 ~~~~~~~~~~~~~")
-      print("🍓이진딸~기 이진딸기 이진딸기이진딸기이진딸~기🍓")
+      print("3초 뒤 게임이 시작됩니다")
+      time.sleep(3)
 
-      # 현재 숫자
-      current_num = 1
-      # 현재 player의 index
-      current_player = invited_players.index(starter)
-      # 15까지 도달했는지 확인하는 flag
-      current_num_flag = 0
-      # 게임이 몇 번 돌았는지 확인하는 cnt
-      game_cnt = 1
-      # 틀림을 확인하는 flag
-      wrong_flag = 0
+   # 인트로
+   print("~~~~~~~~~~~~~ 🍓 게임 START!! 🍓 ~~~~~~~~~~~~~")
+   print("🍓이진딸~기 이진딸기 이진딸기이진딸기이진딸~기🍓")
 
-      while(1):
-         if game_cnt == 16:
-            print(f"이 게임~ 누가 했어~ {starter}가 했어~ 네가 마셔~~")
-            return starter
+   # 현재 숫자
+   current_num = 1
+   # 현재 player의 index
+   current_player = invited_players.index(starter)
+   # 15까지 도달했는지 확인하는 flag
+   current_num_flag = 0
+   # 게임이 몇 번 돌았는지 확인하는 cnt
+   game_cnt = 1
+   # 틀림을 확인하는 flag
+   wrong_flag = 0
 
-         # 만약 현재 player가 사용자라면
-         if invited_players[-1] == invited_players[current_player]:
-            answer = input(f"{invited_players[current_player]}: ").split()
-         # 만약 현재 player가 사용자가 아니라면
-         # (current_num) ~ (current_num+1) 중 숫자 하나를 무작위로 선택
-         else:
-            random_ans = random.randint(current_num, current_num + 1)
-            answer = to_bin_strawberry(random_ans)
-            print(f"{invited_players[current_player]}:", *answer)
-         
-         # player가 말해야하는 정답을 담은 list
-         bin_straw_ans = to_bin_strawberry(current_num)
+   while(1):
+      if game_cnt == 16:
+         time.sleep(2)
+         print(f"이 게임~ 누가 했어~ {starter}가 했어~ 네가 마셔~~")
+         return starter
 
-         for i in range(4):
-            # 정답을 틀리게 말했다면 while문 탈출
-            if answer[i] != bin_straw_ans[i]:
-               wrong_flag = 1
-               print(f"{invited_players[current_player]}님이 틀리셨습니다!")
-               break
-         
-         if wrong_flag == 1:
-            break
-         else:
-            # 다음 player로 넘겨줌
-            if len(invited_players) - 1 == current_player:
-               current_player = 0
-            else:
-               current_player += 1
-            
-            # 만약 15에 도달하면 flag -> 1
-            if current_num == 15:
-               current_num_flag = 1
-            
-            # 15에 도달 -> flag:1 -> current_num--
-            if current_num_flag == 1:
-               current_num -= 1
-            
-            game_cnt += 1
+      # 만약 현재 player가 사용자라면
+      if invited_players[-1] == invited_players[current_player]:
+         answer = input(f"{invited_players[current_player]}: ").split()
+      # 만약 현재 player가 사용자가 아니라면
+      # (current_num) ~ (current_num+1) 중 숫자 하나를 무작위로 선택
+      else:
+         random_ans = random.randint(current_num, current_num + 1)
+         answer = to_bin_strawberry(random_ans)
+         print(f"{invited_players[current_player]}: ", end="")
+         time.sleep(2)
+         print(*answer)
       
-      return invited_players[current_player]
+      # player가 말해야하는 정답을 담은 list
+      bin_straw_ans = to_bin_strawberry(current_num)
+
+      for i in range(4):
+         # 정답을 틀리게 말했다면 while문 탈출
+         if answer[i] != bin_straw_ans[i]:
+            wrong_flag = 1
+            time.sleep(1)
+            print(f"{invited_players[current_player]}님이 틀리셨습니다!")
+            break
+      
+      if wrong_flag == 1:
+         break
+      else:
+         # 다음 player로 넘겨줌
+         if len(invited_players) - 1 == current_player:
+            current_player = 0
+         else:
+            current_player += 1
+         
+         # 만약 15에 도달하면 flag -> 1
+         if current_num == 15:
+            current_num_flag = 1
+         
+         # 15에 도달 -> flag:1 -> current_num--
+         if current_num_flag == 1:
+            current_num -= 1
+         else:
+            current_num += 1
+         
+         game_cnt += 1
+   
+   return invited_players[current_player]

@@ -28,6 +28,7 @@ def make_guess(player, secret_code, is_user=False):
     
     if random_num == secret_code:
         print(f"🎊🎊🎊축하합니다, {player}님이 비밀번호를 맞췄습니다!!!!!🎊🎊🎊")
+        print(f"              🎉 {player}님의 치사량 UP~!!!!! 🎉              ")
         return True
     return False
 
@@ -35,10 +36,10 @@ def lock_game(players, user_name):
     target_name = players[-1]
     secret_code = [random.randint(0, 9) for _ in range(4)]
     
-    print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print("         🔐자물쇠 비밀번호 맞추기 게임입니다!!!!🔐         ")
     print("    비밀번호는 0~9 사이의 숫자 4자리이며, 중복 가능합니다.   ")
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
     
     for player in players:
         if player == user_name:

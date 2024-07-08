@@ -8,3 +8,8 @@
 죠 들어옴
 
 힝 들어옴
+
+### 사용 전 주의 사항
+Install NLTK: run install --user -U nltk
+
+MAC은 run 대신 pip 쓰세요~~~
