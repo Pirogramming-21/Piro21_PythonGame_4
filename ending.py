@@ -1,4 +1,4 @@
-def print_game_over_screen():
+def print_game_over_screen(died_player_list):
     title_text = """
   _______      ___      .___  ___.  _______      ______   ____    ____  _______ .______                                       
  /  _____|    /   \     |   \/   | |   ____|    /  __  \  \   \  /   / |   ____||   _  \                                      
@@ -34,6 +34,10 @@ def print_game_over_screen():
     
                                                                                                                                                               
     """
+    if len(died_player_list) != 0:
+      for player in died_player_list:
+        print(f"{player}이(가) 전사했습니다... 꿈나라에서는 편히 쉬시길..zzzz")
+
     print(title_text)
 
-print_game_over_screen()
+print_game_over_screen(died_player_list)

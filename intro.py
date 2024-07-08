@@ -19,13 +19,9 @@ def start_game():
         choice = input("게임을 진행할까요? (y/n): ")
         if choice.lower() == 'y':
             print("게임을 시작합니다!")
-            # 여기에 main
             break
         elif choice.lower() == 'n':
             print("게임을 종료합니다.")
             break
         else:
             print("잘못된 입력입니다. y 또는 n을 입력해주세요.")
-
-if __name__ == "__main__":
-    start_game()

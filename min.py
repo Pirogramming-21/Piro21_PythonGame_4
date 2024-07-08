@@ -126,29 +126,21 @@ def subway_game(players, current_drinks, fatal_limits, starter):
 
             if end_time - start_time > 3:
                 print("시간 초과! 술을 마셔야 합니다.")
-                current_drinks[player] += 1
                 continue
             
         else:
             station = invited_players_turn(line_number, used_stations)
             if station is None:
                 print(f"누가누가 술을 마셔~ {player}이(가) 술을 마셔!! 원~~~샷!!")
-                current_drinks[player] += 1
                 break
             print(f"{player}이(가) '{station}'을(를) 선택했습니다.")
 
         if station in used_stations:
             print("이미 사용된 역입니다. 술을 마셔야 합니다.")
-            current_drinks[player] += 1
-            if current_drinks[player] >= fatal_limits[player]:
-                print(f"{player}가 치사량에 도달했습니다. 게임을 종료합니다.")
             game_over = True
 
         elif station not in subway_lines[line_number] and station not in subway_lines[min(line_number + 1, 9)]:
             print(f"이 역은 {line_number}호선에 없습니다!!! {player}이(가) 술을 마셔!! 원~~~샷!!")
-            current_drinks[player] += 1
-            if current_drinks[player] >= fatal_limits[player]:
-                print(f"{player}가 치사량에 도달했습니다. 게임을 종료합니다.")
             game_over = True
 
         else:
@@ -162,4 +154,4 @@ def subway_game(players, current_drinks, fatal_limits, starter):
     for player in players:
         print(f"{player}: {current_drinks[player]}잔")
 
-    return [players[current_player], current_drinks]
+    return players[current_player]
