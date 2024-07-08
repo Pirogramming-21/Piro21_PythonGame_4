@@ -5,7 +5,6 @@ from sudoku import sudoku_game
 from jy import bin_strawberry_game
 from min import subway_game
 from intro import start_game
-#from ending import print_game_over_screen
 
 # 플레이어 초대 함수
 def invite_players(max_players=4):
@@ -149,8 +148,6 @@ def main():
         else:
             print("올바른 선택이 아닙니다. 다시 선택하세요.")
             
-    #print_game_over_screen(died_player_list)
-   
 if __name__ == "__main__":
     start_game()
     main()
