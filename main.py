@@ -5,7 +5,6 @@ from sudoku import sudoku_game
 from jy import bin_strawberry_game
 from min import subway_game
 from intro import start_game
-from ending import print_game_over_screen
 
 # 플레이어 초대 함수
 def invite_players(max_players=4):
@@ -41,7 +40,7 @@ def print_game_list(starter, user_name):
     print("               🍺 2. 나랑 ABC하러 갈래~~~~~?")
     print("               🍺 3. 이진 딸기 게임")
     print("               🍺 4. 지하철 게임")
-    print("               🍺 5. 🍺WELCOME TO SUDOKU WORLD!🍺")
+    print("               🍺 5. WELCOME TO SUDOKU WORLD!")
     print("               🍺 6. 게임 종료")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
@@ -141,16 +140,18 @@ def main():
             target_name = subway_game(invited_players, target_name)
             adjust_drinks(target_name, current_drinks)
         elif game_choice == '5':
-            target_name, current_drinks = sudoku_game(current_drinks, invited_players, user_name)
+            target_name = sudoku_game(current_drinks, invited_players, user_name)
             adjust_drinks(target_name, current_drinks)
         elif game_choice == '6':
             print(f"{target_name}이(가) 게임 종료를 선택했습니다.")
             break
         else:
             print("올바른 선택이 아닙니다. 다시 선택하세요.")
-            # 게임 오버 창 띄우기
-    print_game_over_screen(died_player_list)
-   
+    
+    # 게임 오버 창 띄우기
+    import ending
+    ending.end_game(invited_players, fatal_limits, current_drinks)
+    
 if __name__ == "__main__":
     start_game()
     main()

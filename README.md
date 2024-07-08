@@ -8,3 +8,5 @@
 죠 들어옴
 
 힝 들어옴
+
+Install NLTK: run install --user -U nltk

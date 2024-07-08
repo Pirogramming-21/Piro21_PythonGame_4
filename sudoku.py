@@ -137,38 +137,26 @@ def play_sudoku_game(size, current_drinks, invited_players, user_name):
     
     if size == 1:
         if playing_time <= 2:
-            print(playing_time, "분 걸렸습니다. 🍺나 빼고 모두 한 잔!🍺")
+            print(playing_time, "분 걸렸습니다. 🍺나 빼고 랜덤 아무나 한 잔~!🍺")
             target_name = "another_me"
-            for player in invited_players:
-                if player != user_name:
-                    current_drinks[player] += 1
         elif 2 < playing_time <= 5:
-            print(playing_time, "분 걸렸습니다. 🍺다 같이 한 잔!🍺")
+            print(playing_time, "분 걸렸습니다. 🍺다 같이 아무나 랜덤 한 잔~!🍺")
             target_name = "all_target"
-            for player in invited_players:
-                current_drinks[player] += 1
         else:
-            print(playing_time, "분 걸렸습니다. 🍺나만 한 잔!🍺")
+            print(playing_time, "분 걸렸습니다. 🍺나만 한 잔~!🍺")
             target_name = user_name
-            current_drinks[user_name] += 1
     else:
         if playing_time <= 5:
-            print(playing_time, "분 걸렸습니다. 🍺나 빼고 모두 한 잔!🍺")
+            print(playing_time, "분 걸렸습니다. 🍺나 빼고 랜덤 아무나 한 잔~!🍺")
             target_name = "another_me"
-            for player in invited_players:
-                if player != user_name:
-                    current_drinks[player] += 1
         elif 5 < playing_time <= 10:
-            print(playing_time, "분 걸렸습니다. 🍺다 같이 한 잔!🍺")
+            print(playing_time, "분 걸렸습니다. 🍺다 같이 아무나 랜덤 한 잔~!🍺")
             target_name = "all_target"
-            for player in invited_players:
-                current_drinks[player] += 1
         else:
-            print(playing_time, "분 걸렸습니다. 🍺나만 한 잔!🍺")
+            print(playing_time, "분 걸렸습니다. 🍺나만 한 잔~!🍺")
             target_name = user_name
-            current_drinks[user_name] += 1
 
-    return target_name, current_drinks  # 타겟 이름과 게임 결과 반환
+    return target_name
 
 def sudoku_game(current_drinks, invited_players, user_name):
     print("\n🍺 WELCOME TO SUDOKU WORLD! 🍺")
@@ -187,6 +175,12 @@ def sudoku_game(current_drinks, invited_players, user_name):
         sleep(5)
 
     board_size = int(input("스도쿠 보드 크기를 선택하세요 (1: 4x4, 2: 6x6): ").strip())
-    target_name, current_drinks = play_sudoku_game(board_size, current_drinks, invited_players, user_name)
+    target_name = play_sudoku_game(board_size, current_drinks, invited_players, user_name)
     print("게임을 종료합니다. 수고하셨습니다!")
-    return target_name, current_drinks  # 타겟 이름과 게임 결과 반환
+    
+    if target_name == 'another_me':
+        target_name = random.choice([p for p in invited_players if p != user_name])
+    elif target_name == 'all_target':
+        target_name = random.choice(invited_players)
+        
+    return target_name
