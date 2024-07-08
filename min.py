@@ -96,17 +96,20 @@ def invited_players_turn(line_number, used_stations):
     available_stations = set(main_line + adjacent_line) - used_stations
     if not available_stations:
         return None
-    
-    return random.choice(list(available_stations))
+    invited_players_line = random.choice(list(available_stations))
+    return invited_players_line
 
-def subway_game(players, current_drinks, fatal_limits, starter):
+def subway_game(user, players, starter):
     used_stations = set()
+    # 현재 player의 index
     current_player = players.index(starter)
 
     print("지하철 게임에 오신 것을 환영합니다!")
-    line_number = select_line()
-    #만약 inviter면 invited_players_turn
-
+    if(current_player == user) : # user랑 같다면  
+        line_number = select_line()
+    else: 
+        line_number = random.randint(1, 9)
+    
     print("지~하철 지하철! 지~하철 지하철! 몇호선~ 몇호선! 몇호선~ 몇호선!")
     print(f"{line_number}호선~~ {line_number}호선~~")
 
@@ -115,43 +118,46 @@ def subway_game(players, current_drinks, fatal_limits, starter):
         player = players[current_player]
         print(f"\n{player}의 차례입니다.")
         
-        if player == players[0]:  # 첫 번째 플레이어를 사용자로 가정
+        if current_player == user:  #사용자일 때
             start_time = time.time()
-            station = input("3초 안에 역 이름을 입력하세요 (게임 종료: '종료' 입력): ").strip()
+            station = input("5초 안에 역 이름을 입력하세요 (게임 종료: '종료' 입력): ").strip()
             end_time = time.time()
 
             # 종료 입력하면
             if station.lower() == '종료':
                 break
 
-            if end_time - start_time > 3:
-                print("시간 초과! 술을 마셔야 합니다.")
-                continue
+            if end_time - start_time > 5:
+                print("시간은 생명!! 생명!! 생명~ 생명~ 생명~")
+                game_over = True
             
-        else:
+            elif station in used_stations:
+                print("이미 사용된 역이잖아~")
+                game_over = True
+
+            elif station not in subway_lines[line_number]:
+                print(f"이 역은 {line_number}호선에 없습니다!!!")
+                game_over = True
+            
+        else: # invited_player일 때
             station = invited_players_turn(line_number, used_stations)
+            print(f"{station}!!")
             if station is None:
-                print(f"누가누가 술을 마셔~ {player}이(가) 술을 마셔!! 원~~~샷!!")
-                break
-            print(f"{player}이(가) '{station}'을(를) 선택했습니다.")
+                print("남은 역이 없습니다~")
+                game_over = True
 
-        if station in used_stations:
-            print("이미 사용된 역입니다. 술을 마셔야 합니다.")
-            game_over = True
+            elif station in used_stations:
+                print("이미 사용된 역이잖아~")
+                game_over = True
 
-        elif station not in subway_lines[line_number] and station not in subway_lines[min(line_number + 1, 9)]:
-            print(f"이 역은 {line_number}호선에 없습니다!!! {player}이(가) 술을 마셔!! 원~~~샷!!")
-            game_over = True
+            elif station not in subway_lines[line_number]:
+                print(f"이 역은 {line_number}호선에 없습니다!!!")
+                game_over = True
 
-        else:
-            print("정답입니다!")
-            used_stations.add(station)
+            else:
+                print("정답입니다!")
+                used_stations.add(station)
 
         current_player = (current_player + 1) % len(players)
-
-    print("\n게임이 종료되었습니다.")
-    print("~~지하철 게임 Rank~~")
-    for player in players:
-        print(f"{player}: {current_drinks[player]}잔")
 
     return players[current_player]
