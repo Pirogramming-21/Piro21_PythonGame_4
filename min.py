@@ -56,7 +56,7 @@ line6 = [
 # 서울 지하철 7호선
 line7 = [
     "장암", "도봉산", "수락산", "마들", "노원", "중계", "하계", "공릉", "태릉입구", "먹골", "중화", "상봉", "면목", "사가정",
-    "용마산", "중곡", "군자", "어린이대공원", "건대입구", "뚝섬유원지", "청담", "강남구청", "학동", "논현", "반포",
+    "용마산", "중곡", "군자", "어린이대공원", "건대입구", "자양", "청담", "강남구청", "학동", "논현", "반포",
     "고속터미널", "내방", "이수", "남성", "숭실대입구", "상도", "장승배기", "신대방삼거리", "보라매", "신풍", "대림",
     "남구로", "가산디지털단지", "철산", "광명사거리", "천왕", "온수", "까치울", "부천종합운동장", "춘의", "신중동",
     "부천시청", "상동", "삼산체육관", "굴포천", "부평구청"
@@ -138,9 +138,11 @@ def subway_game(user, players, starter):
             elif station not in subway_lines[line_number]:
                 print(f"이 역은 {line_number}호선에 없습니다!!!")
                 game_over = True
+                
             else:
                 print("정답입니다!")
                 used_stations.add(station)
+                current_player = (current_player + 1) % len(players)
             
         else: # invited_player일 때
             station = invited_players_turn(line_number, used_stations)
@@ -161,7 +163,6 @@ def subway_game(user, players, starter):
             else:
                 print("정답입니다!")
                 used_stations.add(station)
-
-        current_player = (current_player + 1) % len(players)
+                current_player = (current_player + 1) % len(players)
 
     return players[current_player]
