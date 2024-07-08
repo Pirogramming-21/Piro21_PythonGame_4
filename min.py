@@ -81,16 +81,34 @@ subway_lines = {
     6: line6, 7: line7, 8: line8, 9: line9
 }
 
+def select_line():
+    while True:
+        line = input("몇 호선으로 게임을 시작할까요? (1-9): ")
+        if line.isdigit() and 1 <= int(line) <= 9:
+            return int(line)
+        else:
+            print("1에서 9 사이의 숫자를 입력해주세요.")
+
+def invited_players_turn(line_number, used_stations):
+    main_line = subway_lines[line_number]
+    adjacent_line = subway_lines[min(line_number + 1, 9)]
+    
+    available_stations = set(main_line + adjacent_line) - used_stations
+    if not available_stations:
+        return None
+    
+    return random.choice(list(available_stations))
+
 def subway_game(players, current_drinks, fatal_limits, starter):
+    used_stations = set()
     current_player = players.index(starter)
 
     print("지하철 게임에 오신 것을 환영합니다!")
-
-    line_number = random.randint(1, 9)
+    line_number = select_line()
+    #만약 inviter면 invited_players_turn
 
     print("지~하철 지하철! 지~하철 지하철! 몇호선~ 몇호선! 몇호선~ 몇호선!")
     print(f"{line_number}호선~~ {line_number}호선~~")
-    used_stations = set()
 
     game_over = False
     while not game_over:
