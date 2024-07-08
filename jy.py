@@ -8,6 +8,7 @@
 2. 0에는 침묵하고 1에서 딸기라고 외치면 됨
 3. 15까지 가면 역순으로 내려옴
 """
+import random
 
 def explanation():
    print("~~~~~~~~~~~~~ 🍓 이진 딸기 게임 룰 🍓 ~~~~~~~~~~~~~")
@@ -24,6 +25,7 @@ def to_bin_strawberry(current_num):
    bin_current_num = bin_current_num[2:]
    bin_current_num = bin_current_num.zfill(4)
 
+   bin_straw_ans = []
    for i in range(4):
       if bin_current_num[i] == '0':
          bin_straw_ans.append('-')
@@ -46,11 +48,13 @@ def bin_strawberry_game(invited_players, starter):
       # 현재 숫자
       current_num = 1
       # 현재 player의 index
-      current_player = invited_players.find(starter)
+      current_player = invited_players.index(starter)
       # 15까지 도달했는지 확인하는 flag
       current_num_flag = 0
       # 게임이 몇 번 돌았는지 확인하는 cnt
       game_cnt = 1
+      # 틀림을 확인하는 flag
+      wrong_flag = 0
 
       while(1):
          if game_cnt == 16:
@@ -59,35 +63,41 @@ def bin_strawberry_game(invited_players, starter):
 
          # 만약 현재 player가 사용자라면
          if invited_players[-1] == invited_players[current_player]:
-            answer = map(string, input(f"{invited_players[current_player]}: ").split())
+            answer = input(f"{invited_players[current_player]}: ").split()
          # 만약 현재 player가 사용자가 아니라면
-         # (current_num-1) ~ (current_num+1) 중 숫자 하나를 무작위로 선택
+         # (current_num) ~ (current_num+1) 중 숫자 하나를 무작위로 선택
          else:
-            random_ans = random.randint(current_num - 1 , current_num + 1)
+            random_ans = random.randint(current_num, current_num + 1)
             answer = to_bin_strawberry(random_ans)
+            print(f"{invited_players[current_player]}:", *answer)
          
          # player가 말해야하는 정답을 담은 list
-         bin_straw_ans = bin_strawberry(current_num)
+         bin_straw_ans = to_bin_strawberry(current_num)
 
          for i in range(4):
             # 정답을 틀리게 말했다면 while문 탈출
             if answer[i] != bin_straw_ans[i]:
+               wrong_flag = 1
+               print(f"{invited_players[current_player]}님이 틀리셨습니다!")
                break
          
-         # 다음 player로 넘겨줌
-         if len(invited_players) - 1 == current_player:
-            current_player = 0
+         if wrong_flag == 1:
+            break
          else:
-            current_player += 1
-         
-         # 만약 15에 도달하면 flag -> 1
-         if current_num == 15:
-            current_num_flag = 1
-         
-         # 15에 도달 -> flag:1 -> current_num--
-         if current_num_flag == 1:
-            current_num -= 1
-         
-         game_cnt += 1
+            # 다음 player로 넘겨줌
+            if len(invited_players) - 1 == current_player:
+               current_player = 0
+            else:
+               current_player += 1
+            
+            # 만약 15에 도달하면 flag -> 1
+            if current_num == 15:
+               current_num_flag = 1
+            
+            # 15에 도달 -> flag:1 -> current_num--
+            if current_num_flag == 1:
+               current_num -= 1
+            
+            game_cnt += 1
       
       return invited_players[current_player]
