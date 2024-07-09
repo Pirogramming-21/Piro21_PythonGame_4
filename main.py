@@ -42,7 +42,7 @@ def print_game_list(starter, user_name):
     print("         🍺 1. 자물쇠 비밀번호를 맞춰라~ 치사량 UP!!")
     print("         🍺 2. 나랑 ABC하러 갈래~~~~~?")
     print("         🍺 3. 피로그래머라면 이진 딸기🍓 먹으러 가자🫨")
-    print("         🍺 4. 지하철 정복하러 가자!!")
+    print("         🍺 4. 🚊지하철을 외자~!~!~!🚊")
     print("         🍺 5. WELCOME TO SUDOKU WORLD!")
     print("         🍺 6. 게임 종료")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
